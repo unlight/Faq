@@ -9,10 +9,6 @@ class FaqHooks implements Gdn_IPlugin {
 	
 	public function Setup() {
 		include(PATH_APPLICATIONS . '/faq/settings/structure.php');
-		$ApplicationInfo = array();
-		include(CombinePaths(array(PATH_APPLICATIONS . '/candy/settings/about.php')));
-		$Version = GetValue('Version', GetValue('Faq', $ApplicationInfo));
-		SaveToConfig('Faq.Version', $Version);
 	}
 	
 	public function OnDisable() {
