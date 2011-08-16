@@ -3,11 +3,16 @@
 $Alt = False;
 $PermissionQuestionsEdit = CheckPermission('Faq.Questions.Edit');
 $PermissionQuestionsDelete = CheckPermission('Faq.Questions.Delete');
+$RowLocation = $this->FetchViewLocation('questionrow', 'question');
 ?>
 
 <h1><?php echo $this->Data('Title');?></h1>
 
 <?php include $this->FetchViewLocation('menu', 'faq'); ?>
+
+<?php if ($this->Faqs->NumRows() == 0):?>
+	<div class="Empty Info"><?php echo T('Nothing.');?></div>
+<?php else: ?>
 
 <?php echo $this->Pager->ToString('less'); ?>
 
@@ -21,26 +26,10 @@ $PermissionQuestionsDelete = CheckPermission('Faq.Questions.Delete');
 	<th><?php echo T('Options');?></th>
 </tr>
 
-<?php foreach ($this->Faqs as $Question) {
-	
-	$Row = '';
-	$Row .= Wrap($Question->FaqID, 'td');
-	$Row .= Wrap('<small>'.$Question->CategoryName.'</small>', 'td');
-	$Row .= Wrap('<small>'.$Question->Question.'</small>', 'td');
-	$Row .= Wrap(Gdn_Format::To($Question->Answer, $Question->Format), 'td');
-	$Row .= Wrap(Gdn_Format::Date($Question->DateUpdated), 'td');
-	
-	$Options = array();
-	if ($PermissionQuestionsEdit) $Options[] = Anchor(T('Edit'), 'faq/question/edit/'.$Question->FaqID);
-	if ($PermissionQuestionsDelete) $Options[] = Anchor(T('Delete'), 'faq/question/delete/'.$Question->FaqID, 'PopConfirm');
-	
-	$Row .= Wrap(implode(' ', $Options), 'td');
-
-	$Alt = !$Alt;
-	echo Wrap($Row, 'tr', array('class' => $Alt ? 'Alt' : ''));
-}
-?>
+<?php foreach ($this->Faqs as $Question) include $RowLocation; ?>
 
 </table>
 
 <?php echo $this->Pager->ToString('more'); ?>
+
+<?php endif; ?>

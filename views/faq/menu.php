@@ -3,6 +3,7 @@
 $Options = array();
 if (CheckPermission('Faq.Questions.Browse')) {
 	$Options[] = Anchor(T('Questions'), 'faq/question/browse', 'Button SmallButton');
+	$Options[] = Anchor(T('Asked questions'), 'faq/question/asked', 'Button SmallButton');
 }
 
 if (CheckPermission('Faq.Questions.Edit')) {

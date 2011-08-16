@@ -37,7 +37,7 @@ class QuestionController extends FaqController {
 		$this->Render();
 	}
 
-	public function Browse($Page = '') {
+	public function Browse($Page = 'p1') {
 		$this->Permission('Faq.Questions.Browse');
 		list($Offset, $Limit) = OffsetLimit($Page, 20);
 		$Where = array('f.Visible' => Null, 'OnlyCategory' => False, 'WithCategory' => True);
@@ -48,6 +48,21 @@ class QuestionController extends FaqController {
 		$this->Pager->Configure($Offset, $Limit, $this->RecordCount, 'faq/questions/%s');
 		
 		$this->Title(T('Questions'));
+		$this->Render();
+	}
+	
+	public function Asked($Page = 'p1') {
+		$this->Permission('Faq.Questions.Browse');
+		list($Offset, $Limit) = OffsetLimit($Page, 20);
+		$Where = array('f.Visible' => 0, 'OnlyCategory' => False, 'WithCategory' => True);
+		$this->RecordCount = $this->FaqModel->GetCount($Where);
+		$this->Faqs = $this->FaqModel->Get($Where, $Offset, $Limit);
+		
+		$this->Pager = new PagerModule($this);
+		$this->Pager->Configure($Offset, $Limit, $this->RecordCount, 'faq/asked/%s');
+		
+		$this->View = 'Browse';
+		$this->Title(T('Asked questions'));
 		$this->Render();
 	}
 	
