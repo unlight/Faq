@@ -2,7 +2,7 @@
 
 ?>
 
-<h1><?php echo Gdn_Fotmat::Text($this->Data('Title'));?></h1>
+<h1><?php echo Gdn_Format::Text($this->Data('Title'));?></h1>
 
 <?php include $this->FetchViewLocation('menu', 'faq'); ?>
 
