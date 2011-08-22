@@ -20,7 +20,7 @@ class FaqModel extends Gdn_Model {
 	public function Save($FormValues, $Settings = False) {
 		self::SetNullValues($FormValues, '');
 		if (array_key_exists('InsertName', $FormValues)) $this->Validation->ApplyRule('InsertName', 'Required');
-		if (GetValue('InsertEmail', $FormValues)) $this->Validation->ApplyRule('InsertEmail', 'Email');
+		if (array_key_exists('InsertEmail', $FormValues)) $this->Validation->ApplyRule('InsertEmail', array('Required', 'Email'));
 		$FaqID = parent::Save($FormValues);
 		if ($FaqID) {
 			$SendQuestion = GetValue('SendQuestion', $Settings);
